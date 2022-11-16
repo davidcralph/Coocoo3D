@@ -9,7 +9,7 @@ using System.Numerics;
 
 namespace RenderPipelines;
 
-[UIShow(name: "前向渲染")]
+[UIShow(name: "Forward Rendering")]
 public class ForwardRenderPipeline : RenderPipeline, IDisposable
 {
     [AOV(AOVType.Color)]
@@ -56,7 +56,7 @@ public class ForwardRenderPipeline : RenderPipeline, IDisposable
     [BRDFBaker]
     public Texture2D _BRDFLUT;
 
-    [UIShow(name: "天空盒")]
+    [UIShow(name: "Skybox Textuure")]
     [Srgb]
     [Resource("adams_place_bridge_2k.jpg")]
     public Texture2D skyboxTexture;
@@ -73,31 +73,31 @@ public class ForwardRenderPipeline : RenderPipeline, IDisposable
     [BakeDependency(nameof(_SkyBox))]
     public Texture2D _Environment;
 
-    [UISlider(0.5f, 2.0f, name: "渲染倍数")]
+    [UISlider(0.5f, 2.0f, name: "Render Scale")]
     public float RenderScale = 1;
 
-    [UIShow(name: "调试渲染")]
+    [UIShow(name: "Debug Render Type")]
     public DebugRenderType DebugRenderType;
 
     #region Material Parameters
     [Indexable]
-    [UIShow(UIShowType.Material, "透明材质")]
+    [UIShow(UIShowType.Material, "Transparent")]
     public bool IsTransparent;
 
     [Indexable]
-    [UISlider(0.0f, 1.0f, UIShowType.Material, "金属")]
+    [UISlider(0.0f, 1.0f, UIShowType.Material, "Metallic")]
     public float Metallic;
 
     [Indexable]
-    [UISlider(0.0f, 1.0f, UIShowType.Material, "粗糙")]
+    [UISlider(0.0f, 1.0f, UIShowType.Material, "Roughness")]
     public float Roughness = 0.8f;
 
     [Indexable]
-    [UIDragFloat(0.01f, 0, float.MaxValue, UIShowType.Material, "发光")]
+    [UIDragFloat(0.01f, 0, float.MaxValue, UIShowType.Material, "Emmisive")]
     public float Emissive;
 
     [Indexable]
-    [UISlider(0.0f, 1.0f, UIShowType.Material, "高光")]
+    [UISlider(0.0f, 1.0f, UIShowType.Material, "Specular")]
     public float Specular = 0.5f;
 
     [UIShow(UIShowType.Material)]
@@ -127,7 +127,7 @@ public class ForwardRenderPipeline : RenderPipeline, IDisposable
     public Texture2D _Emissive;
 
     [Indexable]
-    [UIShow(UIShowType.Material, "使用法线贴图")]
+    [UIShow(UIShowType.Material, "Normal Map")]
     public bool UseNormalMap;
 
     [UIShow(UIShowType.Material)]
@@ -137,7 +137,7 @@ public class ForwardRenderPipeline : RenderPipeline, IDisposable
     public Texture2D _Normal;
 
     [Indexable]
-    [UIShow(UIShowType.Material, "使用Spa")]
+    [UIShow(UIShowType.Material, "Spa")]
     public bool UseSpa;
 
     [UIShow(UIShowType.Material)]
@@ -151,14 +151,14 @@ public class ForwardRenderPipeline : RenderPipeline, IDisposable
 
     #region Light Parameters
     [Indexable]
-    [UIColor(UIShowType.Light, "光照颜色")]
+    [UIColor(UIShowType.Light, "Light Colour")]
     public Vector3 LightColor = new Vector3(3, 3, 3);
     [Indexable]
-    [UIDragFloat(0.1f, 0.1f, float.MaxValue, UIShowType.Light, "光照范围")]
+    [UIDragFloat(0.1f, 0.1f, float.MaxValue, UIShowType.Light, "Light Range")]
     public float LightRange = 5.0f;
 
     [Indexable]
-    [UIShow(UIShowType.Light, "光照类型")]
+    [UIShow(UIShowType.Light, "Light Type")]
     public LightType LightType;
     #endregion
 

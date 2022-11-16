@@ -23,7 +23,7 @@ public class RadeonProRender : RenderPipeline, IDisposable
     [Format(ResourceFormat.R32G32B32A32_Float)]
     public Texture2D noPostProcess;
 
-    [UIShow(name: "天空盒")]
+    [UIShow(name: "Skybox Texture")]
     [Srgb]
     [Resource("adams_place_bridge_2k.jpg")]
     public Texture2D skyboxTexture;
@@ -34,11 +34,11 @@ public class RadeonProRender : RenderPipeline, IDisposable
     [AutoClear]
     public Texture2D intermedia2;
 
-    [UIDragFloat(0.01f, 0, name: "天空盒亮度")]
+    [UIDragFloat(0.01f, 0, name: "Sky Light Muliplier")]
     public float SkyLightMultiple = 3;
 
 
-    [UIDragFloat(0.1f, 0.1f, 60, name: "方向光软阴影角度")]
+    [UIDragFloat(0.1f, 0.1f, 60, name: "Directional Light Shadow Softness Angle")]
     public float DirectionalLightShadowSoftnessAngle = 0.5f;
 
     public int ViewportSampleCount = 2;
@@ -47,23 +47,23 @@ public class RadeonProRender : RenderPipeline, IDisposable
 
     #region Material
     [Indexable]
-    [UISlider(0.0f, 1.0f, UIShowType.Material, "金属")]
+    [UISlider(0.0f, 1.0f, UIShowType.Material, "Metallic")]
     public float Metallic;
 
     [Indexable]
-    [UISlider(0.0f, 1.0f, UIShowType.Material, "粗糙")]
+    [UISlider(0.0f, 1.0f, UIShowType.Material, "Roughness")]
     public float Roughness = 0.8f;
 
     [Indexable]
-    [UIDragFloat(0.01f, 0, float.MaxValue, UIShowType.Material, "发光")]
+    [UIDragFloat(0.01f, 0, float.MaxValue, UIShowType.Material, "Emissive")]
     public float Emissive;
 
     [Indexable]
-    [UISlider(0.0f, 1.0f, UIShowType.Material, "高光")]
+    [UISlider(0.0f, 1.0f, UIShowType.Material, "Specular")]
     public float Specular = 0.5f;
 
     [Indexable]
-    [UIShow(UIShowType.Material, "折射")]
+    [UIShow(UIShowType.Material, "Refraction")]
     public bool Refraction = false;
 
     [Indexable]
@@ -96,14 +96,14 @@ public class RadeonProRender : RenderPipeline, IDisposable
 
     #region Light Parameters
     [Indexable]
-    [UIColor(UIShowType.Light, "光照颜色")]
+    [UIColor(UIShowType.Light, "Light Colour")]
     public Vector3 LightColor = new Vector3(3, 3, 3);
     [Indexable]
-    [UIDragFloat(0.1f, 0.1f, float.MaxValue, UIShowType.Light, "光照范围")]
+    [UIDragFloat(0.1f, 0.1f, float.MaxValue, UIShowType.Light, "Light Range")]
     public float LightRange = 50.0f;
 
     [Indexable]
-    [UIShow(UIShowType.Light, "光照类型")]
+    [UIShow(UIShowType.Light, "Light Type")]
     public LightType LightType;
     #endregion
 

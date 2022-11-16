@@ -145,24 +145,24 @@ public class ForwardRenderPass
     public Vector3 CameraBack;
 
 
-    [UIDragFloat(0.01f, 0, name: "亮度")]
+    [UIDragFloat(0.01f, 0, name: "Brightness")]
     [Indexable]
     public float Brightness = 1;
 
-    [UIDragFloat(0.01f, 0, name: "天空盒亮度")]
+    [UIDragFloat(0.01f, 0, name: "Sky Light Multiplier")]
     [Indexable]
     public float SkyLightMultiple = 3;
 
-    [UIShow(name: "启用雾")]
+    [UIShow(name: "Fog")]
     [Indexable]
     public bool EnableFog;
-    [UIColor(name: "雾颜色")]
+    [UIColor(name: "Fog Colour")]
     [Indexable]
     public Vector3 FogColor = new Vector3(0.4f, 0.4f, 0.6f);
-    [UIDragFloat(0.001f, 0, name: "雾密度")]
+    [UIDragFloat(0.001f, 0, name: "Fog Density")]
     [Indexable]
     public float FogDensity = 0.005f;
-    [UIDragFloat(0.1f, 0, name: "雾开始距离")]
+    [UIDragFloat(0.1f, 0, name: "Fog Start Distance")]
     [Indexable]
     public float FogStartDistance = 5;
     //[UIDragFloat(0.1f, 0, name: "雾结束距离")]

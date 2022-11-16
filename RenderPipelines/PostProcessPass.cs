@@ -58,13 +58,13 @@ public class PostProcessPass
 
     public string inputDepth;
 
-    [UIShow(name: "启用泛光")]
+    [UIShow(name: "Bloom")]
     public bool EnableBloom;
 
-    [UIDragFloat(0.01f, name: "泛光阈值")]
+    [UIDragFloat(0.01f, name: "Bloom Threshold")]
     [Indexable]
     public float BloomThreshold = 1.05f;
-    [UIDragFloat(0.01f, name: "泛光强度")]
+    [UIDragFloat(0.01f, name: "Bloom Intensity")]
     [Indexable]
     public float BloomIntensity = 0.1f;
 

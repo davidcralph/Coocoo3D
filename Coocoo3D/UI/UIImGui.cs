@@ -93,14 +93,14 @@ namespace Coocoo3D.UI
             DockSpace();
             ImGui.SetNextWindowPos(new Vector2(0, 0), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowSize(new Vector2(300, 400), ImGuiCond.FirstUseEver);
-            if (ImGui.Begin("常用"))
+            if (ImGui.Begin("Common"))
             {
                 Common();
             }
             ImGui.End();
             ImGui.SetNextWindowSize(new Vector2(500, 300), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowPos(new Vector2(300, 400), ImGuiCond.FirstUseEver);
-            if (ImGui.Begin("资源"))
+            if (ImGui.Begin("Resource"))
             {
                 var _openRequest = Resources();
                 if (openRequest == null)
@@ -109,14 +109,14 @@ namespace Coocoo3D.UI
             ImGui.End();
             ImGui.SetNextWindowPos(new Vector2(800, 0), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowSize(new Vector2(300, 400), ImGuiCond.FirstUseEver);
-            if (ImGui.Begin("设置"))
+            if (ImGui.Begin("Settings"))
             {
                 SettingsPanel();
             }
             ImGui.End();
             ImGui.SetNextWindowSize(new Vector2(350, 300), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowPos(new Vector2(750, 0), ImGuiCond.FirstUseEver);
-            if (ImGui.Begin("场景层级"))
+            if (ImGui.Begin("Scene Hierarchy"))
             {
                 SceneHierarchy();
             }
@@ -129,7 +129,7 @@ namespace Coocoo3D.UI
                 if (visualChannel.Name != "main")
                 {
                     bool open = true;
-                    if (ImGui.Begin(string.Format("场景视图 - {0}###SceneView/{0}", visualChannel.Name), ref open))
+                    if (ImGui.Begin(string.Format("Scene View - {0}###SceneView/{0}", visualChannel.Name), ref open))
                     {
                         SceneView(visualChannel, io.MouseWheel, mouseMoveDelta);
                     }
@@ -140,7 +140,7 @@ namespace Coocoo3D.UI
                 }
                 else
                 {
-                    if (ImGui.Begin(string.Format("场景视图 - {0}###SceneView/{0}", visualChannel.Name)))
+                    if (ImGui.Begin(string.Format("Scene View - {0}###SceneView/{0}", visualChannel.Name)))
                     {
                         SceneView(visualChannel, io.MouseWheel, mouseMoveDelta);
                     }
@@ -151,7 +151,7 @@ namespace Coocoo3D.UI
             windowSystem.UpdateChannels();
             ImGui.SetNextWindowSize(new Vector2(300, 300), ImGuiCond.FirstUseEver);
             ImGui.SetNextWindowPos(new Vector2(0, 400), ImGuiCond.FirstUseEver);
-            if (ImGui.Begin("物体"))
+            if (ImGui.Begin("Object"))
             {
                 if (selectedObject != default(Entity))
                 {
@@ -215,88 +215,88 @@ namespace Coocoo3D.UI
         void Common()
         {
             var camera = windowSystem.currentChannel.camera;
-            if (ImGui.TreeNode("变换"))
+            if (ImGui.TreeNode("Transform"))
             {
-                if (ImGui.DragFloat3("位置", ref position, 0.01f))
+                if (ImGui.DragFloat3("Location", ref position, 0.01f))
                 {
                     positionChange = true;
                 }
                 Vector3 a = rotation / MathF.PI * 180;
-                if (ImGui.DragFloat3("旋转", ref a))
+                if (ImGui.DragFloat3("Rotation", ref a))
                 {
                     rotation = a * MathF.PI / 180;
                     rotationChange = true;
                 }
                 ImGui.TreePop();
             }
-            if (ImGui.TreeNode("相机"))
+            if (ImGui.TreeNode("Camera"))
             {
-                ImGui.DragFloat("距离", ref camera.Distance, 0.01f);
-                ImGui.DragFloat3("焦点", ref camera.LookAtPoint, 0.05f);
+                ImGui.DragFloat("Distance", ref camera.Distance, 0.01f);
+                ImGui.DragFloat3("Focus", ref camera.LookAtPoint, 0.05f);
                 Vector3 a = camera.Angle / MathF.PI * 180;
-                if (ImGui.DragFloat3("角度", ref a))
+                if (ImGui.DragFloat3("Angle", ref a))
                     camera.Angle = a * MathF.PI / 180;
                 float fov = camera.Fov / MathF.PI * 180;
                 if (ImGui.DragFloat("FOV", ref fov, 0.5f, 0.1f, 179.9f))
                     camera.Fov = fov * MathF.PI / 180;
-                ImGui.DragFloat("近裁剪", ref camera.nearClip, 0.01f, 0.01f, float.MaxValue);
-                ImGui.DragFloat("远裁剪", ref camera.farClip, 1.0f, 0.01f, float.MaxValue);
+                ImGui.DragFloat("Near Cropping", ref camera.nearClip, 0.01f, 0.01f, float.MaxValue);
+                ImGui.DragFloat("Far Cropping", ref camera.farClip, 1.0f, 0.01f, float.MaxValue);
 
-                ImGui.Checkbox("使用镜头运动文件", ref camera.CameraMotionOn);
+                ImGui.Checkbox("Use motion file", ref camera.CameraMotionOn);
                 ImGui.TreePop();
             }
-            if (ImGui.TreeNode("录制"))
+            if (ImGui.TreeNode("Record"))
             {
                 if (recordSystem.ffmpegInstalled)
                 {
-                    ImGui.Text("已安装FFmpeg，将使用FFmpeg录制。输出文件名output.mp4");
+                    ImGui.Text("FFmpeg has been installed and will be recorded using FFmpeg. Output file name output.mp4");
                 }
                 var recordSettings = recordSystem.recordSettings;
-                ImGui.DragFloat("开始时间", ref recordSettings.StartTime);
-                ImGui.DragFloat("结束时间", ref recordSettings.StopTime);
-                ImGui.DragInt("宽度", ref recordSettings.Width, 32, 32, 16384);
-                ImGui.DragInt("高度", ref recordSettings.Height, 8, 8, 16384);
+                ImGui.DragFloat("Start", ref recordSettings.StartTime);
+                ImGui.DragFloat("Stop", ref recordSettings.StopTime);
+                ImGui.DragInt("Width", ref recordSettings.Width, 32, 32, 16384);
+                ImGui.DragInt("Height", ref recordSettings.Height, 8, 8, 16384);
                 ImGui.DragFloat("FPS", ref recordSettings.FPS, 1, 1, 1000);
-                if (ImGui.Button("开始录制"))
+                if (ImGui.Button("Begin"))
                 {
                     requestRecord = true;
                 }
                 ImGui.TreePop();
             }
-            if (ImGui.TreeNode("帮助"))
+            if (ImGui.TreeNode("Help"))
             {
                 Help();
                 ImGui.TreePop();
             }
-            if (ImGui.Button("播放"))
+            if (ImGui.Button("Play"))
             {
                 Play();
             }
             ImGui.SameLine();
-            if (ImGui.Button("暂停"))
+            if (ImGui.Button("Pause"))
             {
                 Pause();
             }
             ImGui.SameLine();
-            if (ImGui.Button("停止"))
+            if (ImGui.Button("Stop"))
             {
                 Stop();
             }
-            if (ImGui.Button("跳到最前"))
+            if (ImGui.Button("Jump to end"))
             {
                 Front();
             }
             ImGui.SameLine();
-            if (ImGui.Button("重置物理"))
+            if (ImGui.Button("Reset Physics"))
             {
                 gameDriverContext.RequireResetPhysics = true;
             }
-            if (ImGui.Button("快进"))
+            if (ImGui.Button("Fast Foward"))
             {
                 FastForward();
             }
             ImGui.SameLine();
-            if (ImGui.Button("向前5秒"))
+            if (ImGui.Button("5 seconds forward"))
             {
                 gameDriver.ToPlayMode();
                 gameDriverContext.PlayTime -= 5;
@@ -311,10 +311,10 @@ namespace Coocoo3D.UI
 
         void SettingsPanel()
         {
-            ImGui.Checkbox("垂直同步", ref config.VSync);
-            ImGui.Checkbox("节省CPU", ref config.SaveCpuPower);
+            ImGui.Checkbox("VSync", ref config.VSync);
+            ImGui.Checkbox("Save CPU Power", ref config.SaveCpuPower);
             float a = (float)(1.0 / Math.Clamp(gameDriverContext.FrameInterval, 1e-4, 1));
-            if (ImGui.DragFloat("帧率限制", ref a, 10, 1, 5000))
+            if (ImGui.DragFloat("Frame Interval", ref a, 10, 1, 5000))
             {
                 gameDriverContext.FrameInterval = Math.Clamp(1 / a, 1e-4f, 1f);
             }
@@ -344,20 +344,20 @@ namespace Coocoo3D.UI
                 }
             }
 
-            if (ImGui.Combo("渲染管线", ref renderPipelineIndex, newRPs, rps.Count))
+            if (ImGui.Combo("Rendering Pipeline", ref renderPipelineIndex, newRPs, rps.Count))
             {
                 rpc.currentChannel.DelaySetRenderPipeline(rps[renderPipelineIndex]);
             }
-            if (ImGui.Button("加载渲染管线"))
+            if (ImGui.Button("Load Rendering Pipeline"))
             {
                 requestSelectRenderPipelines = true;
             }
             if (ImGui.IsItemHovered())
             {
-                ImGui.SetTooltip("默认的渲染管线位于软件的Samples文件夹，软件会在启动时加载这些插件。");
+                ImGui.SetTooltip("The default rendering pipeline is located in the Samples folder of the software, and the software will load these plug-ins at startup.");
             }
 
-            if (ImGui.Button("添加视口"))
+            if (ImGui.Button("Add Viewport"))
             {
                 int c = 1;
                 while (true)
@@ -370,19 +370,19 @@ namespace Coocoo3D.UI
                     c++;
                 }
             }
-            if (ImGui.Button("保存场景"))
+            if (ImGui.Button("Save"))
             {
                 requestSave = true;
             }
-            if (ImGui.Button("重新加载纹理"))
+            if (ImGui.Button("Reload Textures"))
             {
                 mainCaches.ReloadTextures = true;
             }
-            if (ImGui.Button("重新加载Shader"))
+            if (ImGui.Button("Reload Shaders"))
             {
                 mainCaches.ReloadShaders = true;
             }
-            ImGui.TextUnformatted("绘制三角形数：" + statistics.DrawTriangleCount); ;
+            ImGui.TextUnformatted("Draw Triangle Count：" + statistics.DrawTriangleCount); ;
         }
 
         void ShowParams(RenderPipelineView view, object tree1)
@@ -390,7 +390,7 @@ namespace Coocoo3D.UI
             if (view == null)
                 return;
             ImGui.Separator();
-            string filter = ImFilter("查找参数", "搜索参数名称");
+            string filter = ImFilter("Find Parameters", "Search Parameter Name");
             var usages1 = mainCaches.GetUIUsage(tree1.GetType());
             foreach (var param in usages1)
             {
@@ -458,7 +458,7 @@ namespace Coocoo3D.UI
         void ShowParams(UIShowType showType, object renderPipeline, Dictionary<string, object> parameters)
         {
             ImGui.Separator();
-            string filter = ImFilter("查找参数", "搜索参数名称");
+            string filter = ImFilter("Find Parameters", "Search Parameter Name");
 
             foreach (var param in mainCaches.GetUIUsage(renderPipeline.GetType()))
             {
@@ -644,7 +644,7 @@ namespace Coocoo3D.UI
                     }
                     break;
                 default:
-                    ImGui.Text(displayName + " 不支持的类型");
+                    ImGui.Text(displayName + " Unsupported Type");
                     break;
             }
             if (propertyOverride)
@@ -764,22 +764,22 @@ namespace Coocoo3D.UI
 
         static FileInfo Resources()
         {
-            if (ImGui.Button("打开文件夹"))
+            if (ImGui.Button("Open Folder"))
             {
                 requireOpenFolder = true;
             }
             ImGui.SameLine();
-            if (ImGui.Button("刷新"))
+            if (ImGui.Button("Refresh"))
             {
                 viewRequest = currentFolder;
             }
             ImGui.SameLine();
-            if (ImGui.Button("后退"))
+            if (ImGui.Button("Back"))
             {
                 if (navigationStack.Count > 0)
                     viewRequest = navigationStack.Pop();
             }
-            string filter = ImFilter("查找文件", "查找文件");
+            string filter = ImFilter("Find Files", "Find Files");
 
             ImGuiTableFlags tableFlags = ImGuiTableFlags.RowBg | ImGuiTableFlags.BordersOuter | ImGuiTableFlags.BordersV |
                 ImGuiTableFlags.Resizable | ImGuiTableFlags.Reorderable | ImGuiTableFlags.Hideable | ImGuiTableFlags.ScrollY;
@@ -793,8 +793,8 @@ namespace Coocoo3D.UI
             if (ImGui.BeginTable("resources", 2, tableFlags, Vector2.Max(itemSize, new Vector2(0, 28)), 0))
             {
                 ImGui.TableSetupScrollFreeze(0, 1);
-                ImGui.TableSetupColumn("文件名");
-                ImGui.TableSetupColumn("大小");
+                ImGui.TableSetupColumn("File Name");
+                ImGui.TableSetupColumn("Size");
                 ImGui.TableHeadersRow();
 
                 lock (storageItems)
@@ -839,33 +839,33 @@ namespace Coocoo3D.UI
 
         static void Help()
         {
-            if (ImGui.TreeNode("基本操作"))
+            if (ImGui.TreeNode("Basic Operation"))
             {
-                ImGui.Text(@"旋转视角 - 按住鼠标右键拖动
-平移镜头 - 按住鼠标中键拖动
-拉近、拉远镜头 - 鼠标滚轮
-修改物体位置、旋转 - 双击修改，或者在数字上按住左键然后拖动
-打开文件 - 将文件拖入窗口，或者在资源窗口打开文件夹。");
+                ImGui.Text(@"Rotate camera - hold down the right mouse button and drag
+Pan camera - middle mouse button drag
+Zoom in, zoom out - mouse wheel
+Modify object position, rotation - double-click to modify, or hold down the left button on the number and drag
+Open File - Drag a file into the window, or open a folder in the resource window.");
                 ImGui.TreePop();
             }
-            if (ImGui.TreeNode("支持格式"))
+            if (ImGui.TreeNode("Supported Formats"))
             {
-                ImGui.Text(@"当前版本支持pmx、glTF格式模型，
-vmd格式动作。支持几乎所有的图片格式。");
+                ImGui.Text(@"The current version supports pmx and glTF format models,
+vmd format action. Support almost all image formats.");
                 ImGui.TreePop();
             }
-            ImGui.Checkbox("显示ImGuiDemoWindow", ref demoWindowOpen);
-            ImGui.Checkbox("显示Render Buffers", ref showRenderBuffers);
+            ImGui.Checkbox("Show ImGuiDemoWindow", ref demoWindowOpen);
+            ImGui.Checkbox("Show Render Buffers", ref showRenderBuffers);
         }
 
         void SceneHierarchy()
         {
-            if (ImGui.Button("新光源"))
+            if (ImGui.Button("New Light Source"))
             {
                 NewLighting();
             }
             ImGui.SameLine();
-            if (ImGui.Button("新粒子"))
+            if (ImGui.Button("New Particle"))
             {
                 NewParticle();
             }
@@ -875,19 +875,19 @@ vmd格式动作。支持几乎所有的图片格式。");
             //    NewVolume();
             //}
             //ImGui.SameLine();
-            if (ImGui.Button("新贴花"))
+            if (ImGui.Button("New Decal"))
             {
                 NewDecal();
             }
             //ImGui.SameLine();
             bool removeObject = false;
-            if (ImGui.Button("移除物体") || (ImGui.IsKeyPressed((int)ImGuiKey.Delete) && ImGui.IsWindowHovered()))
+            if (ImGui.Button("Remove Object") || (ImGui.IsKeyPressed((int)ImGuiKey.Delete) && ImGui.IsWindowHovered()))
             {
                 removeObject = true;
             }
             bool copyObject = false; ;
             ImGui.SameLine();
-            if (ImGui.Button("复制物体"))
+            if (ImGui.Button("Copy Object"))
             {
                 copyObject = true;
             }
@@ -895,7 +895,7 @@ vmd格式动作。支持几乎所有的图片格式。");
             //{
             //    gameObjectSelected.Add(false);
             //}
-            string filter = ImFilter("查找物体", "查找名称");
+            string filter = ImFilter("Find Object", "Find Name");
             var gameObjects = CurrentScene.world;
             int i = 0;
             foreach (var gameObject in gameObjects)
@@ -956,28 +956,28 @@ vmd格式动作。支持几乎所有的图片格式。");
             TryGetComponent<AnimationStateComponent>(gameObject, out var animationState);
             TryGetComponent<ObjectDescription>(gameObject, out var objectDescription);
 
-            ImGui.InputText("名称", ref objectDescription.Name, 256);
-            if (ImGui.TreeNode("描述"))
+            ImGui.InputText("Name", ref objectDescription.Name, 256);
+            if (ImGui.TreeNode("Description"))
             {
                 ImGui.Text(objectDescription.Description);
                 if (renderer != null)
                 {
                     var mesh = mainCaches.GetModel(renderer.meshPath).GetMesh();
-                    ImGui.Text(string.Format("顶点数：{0} 索引数：{1} 材质数：{2}\n模型文件：{3}\n",
+                    ImGui.Text(string.Format("Number of vertices: {0} Index number: {1} Material number: {2}\nModel file: {3}\n",
                         mesh.GetVertexCount(), mesh.GetIndexCount(), renderer.Materials.Count,
                         renderer.meshPath));
                 }
 
                 ImGui.TreePop();
             }
-            if (ImGui.TreeNode("变换"))
+            if (ImGui.TreeNode("Transform"))
             {
-                if (ImGui.DragFloat3("位置", ref position, 0.01f))
+                if (ImGui.DragFloat3("Position", ref position, 0.01f))
                 {
                     positionChange = true;
                 }
                 Vector3 a = rotation / MathF.PI * 180;
-                if (ImGui.DragFloat3("旋转", ref a))
+                if (ImGui.DragFloat3("Rotation", ref a))
                 {
                     rotation = a * MathF.PI / 180;
                     rotationChange = true;
@@ -1000,32 +1000,32 @@ vmd格式动作。支持几乎所有的图片格式。");
 
         void RendererComponent(MMDRendererComponent renderer, AnimationStateComponent animationState)
         {
-            if (ImGui.TreeNode("材质"))
+            if (ImGui.TreeNode("Material"))
             {
                 ShowMaterials(mainCaches.GetModel(renderer.meshPath).Submeshes, renderer.Materials);
                 ImGui.TreePop();
             }
-            if (ImGui.TreeNode("动画"))
+            if (ImGui.TreeNode("Animation"))
             {
-                ImGui.Text(string.Format("动作文件：{0}", animationState.motionPath));
-                if (ImGui.Button("清除动画"))
+                ImGui.Text(string.Format("Motion File：{0}", animationState.motionPath));
+                if (ImGui.Button("Clear Animation"))
                 {
                     gameDriverContext.RequireResetPhysics = true;
                     animationState.motionPath = "";
                 }
-                ImGui.Checkbox("蒙皮", ref renderer.skinning);
+                ImGui.Checkbox("Skinning", ref renderer.skinning);
                 if (ImGui.IsItemHovered())
-                    ImGui.SetTooltip("关闭蒙皮可以提高性能");
-                if (ImGui.Checkbox("使用IK", ref renderer.enableIK))
+                    ImGui.SetTooltip("Turning off the skin can improve performance");
+                if (ImGui.Checkbox("Use IK", ref renderer.enableIK))
                 {
                     gameDriverContext.RequireResetPhysics = true;
                 }
                 if (ImGui.IsItemHovered())
-                    ImGui.SetTooltip("如果动作不使用IK，请取消勾选");
-                ImGui.Checkbox("锁定动作", ref animationState.LockMotion);
+                    ImGui.SetTooltip("If the action does not use IK, uncheck it");
+                ImGui.Checkbox("Lock Motion", ref animationState.LockMotion);
                 if (animationState.LockMotion)
                 {
-                    string filter = ImFilter("搜索变形", "搜索变形");
+                    string filter = ImFilter("Search morph", "Search morph");
                     for (int i = 0; i < renderer.morphs.Count; i++)
                     {
                         MorphDesc morpth = renderer.morphs[i];
@@ -1042,7 +1042,7 @@ vmd格式动作。支持几乎所有的图片格式。");
 
         void RendererComponent(MeshRendererComponent renderer)
         {
-            if (ImGui.TreeNode("材质"))
+            if (ImGui.TreeNode("Material"))
             {
                 ShowMaterials(mainCaches.GetModel(renderer.meshPath).Submeshes, renderer.Materials);
                 ImGui.TreePop();
@@ -1072,7 +1072,7 @@ vmd格式动作。支持几乎所有的图片格式。");
                     var material = materials[materialSelectIndex];
                     var submesh = submeshes[materialSelectIndex];
                     ImGui.Text(submesh.Name);
-                    if (ImGui.Button("修改此物体所有材质"))
+                    if (ImGui.Button("Modify all materials of this object"))
                     {
                         StartEditParam();
                     }
@@ -1085,7 +1085,7 @@ vmd格式动作。支持几乎所有的图片格式。");
 
         void VisualComponent(ref Transform transform, VisualComponent visualComponent)
         {
-            if (ImGui.TreeNode("绑定"))
+            if (ImGui.TreeNode("Binding"))
             {
                 int rendererCount = renderPipelineContext.renderers.Count;
                 string[] renderers = new string[rendererCount + 1];
@@ -1108,7 +1108,7 @@ vmd格式动作。支持几乎所有的图片格式。");
                     if (count == rendererCount + 1)
                         break;
                 }
-                if (ImGui.Combo("绑定到物体", ref currentItem, renderers, rendererCount + 1))
+                if (ImGui.Combo("Bind to object", ref currentItem, renderers, rendererCount + 1))
                 {
                     visualComponent.bindId = ids[currentItem];
                 }
@@ -1135,7 +1135,7 @@ vmd格式动作。支持几乎所有的图片格式。");
                     if (bones[i] == visualComponent.bindBone)
                         currentItem = i;
                 }
-                if (ImGui.Combo("绑定骨骼", ref currentItem, bones, bones.Length))
+                if (ImGui.Combo("Bind Bones", ref currentItem, bones, bones.Length))
                 {
                     if (currentItem > 0)
                     {
@@ -1146,17 +1146,17 @@ vmd格式动作。支持几乎所有的图片格式。");
                         visualComponent.bindBone = null;
                     }
                 }
-                ImGui.Checkbox("绑定X", ref visualComponent.bindX);
-                ImGui.Checkbox("绑定Y", ref visualComponent.bindY);
-                ImGui.Checkbox("绑定Z", ref visualComponent.bindZ);
-                ImGui.Checkbox("绑定旋转", ref visualComponent.bindRot);
+                ImGui.Checkbox("Bind X", ref visualComponent.bindX);
+                ImGui.Checkbox("Bind Y", ref visualComponent.bindY);
+                ImGui.Checkbox("Bind Z", ref visualComponent.bindZ);
+                ImGui.Checkbox("Bind Rotation", ref visualComponent.bindRot);
                 ImGui.TreePop();
             }
-            if (ImGui.TreeNode("视觉"))
+            if (ImGui.TreeNode("Vision"))
             {
-                ImGui.Checkbox("显示包围盒", ref showBounding);
+                ImGui.Checkbox("Show Bounding Box", ref showBounding);
 
-                ImGui.DragFloat3("大小", ref transform.scale, 0.01f);
+                ImGui.DragFloat3("Size", ref transform.scale, 0.01f);
                 ShowParams(visualComponent.UIShowType, windowSystem.currentChannel.renderPipelineView, visualComponent.material.Parameters);
                 if (visualComponent.UIShowType == UIShowType.Particle)
                 {
@@ -1331,13 +1331,13 @@ vmd格式动作。支持几乎所有的图片格式。");
             if (requestOpenResource)
             {
                 requestOpenResource = false;
-                ImGui.OpenPopup("选择资源");
+                ImGui.OpenPopup("Select Resource");
                 popupOpenResource = true;
             }
             ImGui.SetNextWindowSize(new Vector2(400, 400), ImGuiCond.Appearing);
-            if (ImGui.BeginPopupModal("选择资源", ref popupOpenResource))
+            if (ImGui.BeginPopupModal("Open Resource", ref popupOpenResource))
             {
-                if (ImGui.Button("关闭"))
+                if (ImGui.Button("Close"))
                 {
                     popupOpenResource = false;
                 }
@@ -1352,14 +1352,14 @@ vmd格式动作。支持几乎所有的图片格式。");
             if (requestParamEdit)
             {
                 requestParamEdit = false;
-                ImGui.OpenPopup("编辑参数");
+                ImGui.OpenPopup("Edit parameters");
                 popupParamEdit = true;
             }
-            if (ImGui.BeginPopupModal("编辑参数", ref popupParamEdit))
+            if (ImGui.BeginPopupModal("Edit parameter", ref popupParamEdit))
             {
                 ShowParams(UIShowType.Material, windowSystem.currentChannel.renderPipelineView, paramEdit);
 
-                if (ImGui.Button("确定"))
+                if (ImGui.Button("OK"))
                 {
                     TryGetComponent<MeshRendererComponent>(gameObject, out var meshRenderer);
                     TryGetComponent<MMDRendererComponent>(gameObject, out var mmdRenderer);
@@ -1382,7 +1382,7 @@ vmd格式动作。支持几乎所有的图片格式。");
 
                     popupParamEdit = false;
                 }
-                if (ImGui.Button("取消"))
+                if (ImGui.Button("Close"))
                 {
                     popupParamEdit = false;
                 }
@@ -1400,7 +1400,7 @@ vmd格式动作。支持几乎所有的图片格式。");
             gameObject.Set(lightComponent);
             gameObject.Set(new ObjectDescription
             {
-                Name = "光照",
+                Name = "Light",
                 Description = ""
             });
             gameObject.Set(new Transform(new Vector3(0, 1, 0), Quaternion.CreateFromYawPitchRoll(0, 1.3962634015954636615389526147909f, 0)));
@@ -1416,7 +1416,7 @@ vmd格式动作。支持几乎所有的图片格式。");
             gameObject.Set(decalComponent);
             gameObject.Set(new ObjectDescription
             {
-                Name = "贴花",
+                Name = "Decal",
                 Description = ""
             });
             gameObject.Set(new Transform(new Vector3(0, 0, 0), Quaternion.CreateFromYawPitchRoll(0, -1.5707963267948966192313216916398f, 0), new Vector3(1, 1, 0.1f)));
@@ -1437,7 +1437,7 @@ vmd格式动作。支持几乎所有的图片格式。");
             gameObject.Set(component);
             gameObject.Set(new ObjectDescription
             {
-                Name = "粒子",
+                Name = "Particle",
                 Description = ""
             });
             gameObject.Set(new Transform(new Vector3(0, 1, 0), Quaternion.CreateFromYawPitchRoll(0, 0, 0), new Vector3(1, 1, 1)));

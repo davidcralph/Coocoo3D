@@ -10,7 +10,7 @@ using System.Numerics;
 
 namespace RenderPipelines;
 
-[UIShow(name: "延迟渲染")]
+[UIShow(name: "DeferredRenderPipeline")]
 public class DeferredRenderPipeline : RenderPipeline, IDisposable
 {
     [AOV(AOVType.Color)]
@@ -83,7 +83,7 @@ public class DeferredRenderPipeline : RenderPipeline, IDisposable
     [BRDFBaker]
     public Texture2D _BRDFLUT;
 
-    [UIShow(name: "天空盒")]
+    [UIShow(name: "Skybox Texture")]
     [Srgb]
     [Resource("adams_place_bridge_2k.jpg")]
     public Texture2D skyboxTexture;
@@ -108,36 +108,36 @@ public class DeferredRenderPipeline : RenderPipeline, IDisposable
 
     #region Parameters
 
-    [UISlider(0.5f, 2.0f, name: "渲染倍数")]
+    [UISlider(0.5f, 2.0f, name: "Render Scale")]
     public float RenderScale = 1;
 
-    [UIShow(name: "调试渲染")]
+    [UIShow(name: "Debug Render Type")]
     public DebugRenderType DebugRenderType;
 
     #endregion
     #region Material Parameters
     [Indexable]
-    [UIShow(UIShowType.Material, "透明材质")]
+    [UIShow(UIShowType.Material, "Transparent")]
     public bool IsTransparent;
 
     [Indexable]
-    [UISlider(0.0f, 1.0f, UIShowType.Material, "金属")]
+    [UISlider(0.0f, 1.0f, UIShowType.Material, "Metallic")]
     public float Metallic;
 
     [Indexable]
-    [UISlider(0.0f, 1.0f, UIShowType.Material, "粗糙")]
+    [UISlider(0.0f, 1.0f, UIShowType.Material, "Roughness")]
     public float Roughness = 0.8f;
 
     [Indexable]
-    [UIDragFloat(0.01f, 0, float.MaxValue, UIShowType.Material, "发光")]
+    [UIDragFloat(0.01f, 0, float.MaxValue, UIShowType.Material, "Emissive")]
     public float Emissive;
 
     [Indexable]
-    [UISlider(0.0f, 1.0f, UIShowType.Material, "高光")]
+    [UISlider(0.0f, 1.0f, UIShowType.Material, "Specular")]
     public float Specular = 0.5f;
 
     [Indexable]
-    [UISlider(0.0f, 1.0f, UIShowType.Material, "遮蔽")]
+    [UISlider(0.0f, 1.0f, UIShowType.Material, "Ambient Occlusion")]
     public float AO = 1.0f;
 
     [UIShow(UIShowType.Material)]
@@ -167,7 +167,7 @@ public class DeferredRenderPipeline : RenderPipeline, IDisposable
     public Texture2D _Emissive;
 
     [Indexable]
-    [UIShow(UIShowType.Material, "使用法线贴图")]
+    [UIShow(UIShowType.Material, "Normal Map")]
     public bool UseNormalMap;
 
     [UIShow(UIShowType.Material)]
@@ -177,7 +177,7 @@ public class DeferredRenderPipeline : RenderPipeline, IDisposable
     public Texture2D _Normal;
 
     [Indexable]
-    [UIShow(UIShowType.Material, "使用Spa")]
+    [UIShow(UIShowType.Material, "Use Spa")]
     public bool UseSpa;
 
     [UIShow(UIShowType.Material)]
@@ -190,63 +190,63 @@ public class DeferredRenderPipeline : RenderPipeline, IDisposable
     #endregion
     #region Decal Parameters
     [Indexable]
-    [UIShow(UIShowType.Decal, "启用贴花颜色")]
+    [UIShow(UIShowType.Decal, "Decal Colour")]
     public bool EnableDecalColor = true;
     [Srgb]
-    [UIShow(UIShowType.Decal, "贴花颜色贴图")]
+    [UIShow(UIShowType.Decal, "Decal Colour Texture")]
     public Texture2D DecalColorTexture;
     [Indexable]
-    [UIShow(UIShowType.Decal, "启用贴花发光")]
+    [UIShow(UIShowType.Decal, "Decal Emissive")]
     public bool EnableDecalEmissive;
     [Srgb]
-    [UIShow(UIShowType.Decal, "贴花发光贴图")]
+    [UIShow(UIShowType.Decal, "Decal Emissive Texture")]
     public Texture2D DecalEmissiveTexture;
     [Indexable]
-    [UIColor(UIShowType.Decal, "发光强度")]
+    [UIColor(UIShowType.Decal, "Decal Emissive Power")]
     public Vector4 _DecalEmissivePower = new Vector4(1, 1, 1, 1);
     #endregion
     #region Light Parameters
     [Indexable]
-    [UIColor(UIShowType.Light, "光照颜色")]
+    [UIColor(UIShowType.Light, "Light Colour")]
     public Vector3 LightColor = new Vector3(3, 3, 3);
     [Indexable]
-    [UIDragFloat(0.1f, 0.1f, float.MaxValue, UIShowType.Light, "光照范围")]
+    [UIDragFloat(0.1f, 0.1f, float.MaxValue, UIShowType.Light, "Light Range")]
     public float LightRange = 5.0f;
 
     [Indexable]
-    [UIShow(UIShowType.Light, "光照类型")]
+    [UIShow(UIShowType.Light, "Light Type")]
     public LightType LightType;
 
     #endregion
     #region Particle Parameters
 
     [Indexable]
-    [UIDragInt(1, 0, 1000, UIShowType.Particle, "数量")]
+    [UIDragInt(1, 0, 1000, UIShowType.Particle, "Particle Count")]
     public int ParticleCount;
     [Indexable]
-    [UIDragFloat(0.01f, 0, float.MaxValue, UIShowType.Particle, "生命")]
+    [UIDragFloat(0.01f, 0, float.MaxValue, UIShowType.Particle, "Particle Life")]
     public Vector2 ParticleLife;
     [Indexable]
-    [UIDragFloat(0.01f, 0, float.MaxValue, UIShowType.Particle, "随机速度")]
+    [UIDragFloat(0.01f, 0, float.MaxValue, UIShowType.Particle, "Particle Random Speed")]
     public Vector2 ParticleRandomSpeed;
     [Indexable]
-    [UIDragFloat(0.01f, float.MinValue, float.MaxValue, UIShowType.Particle, "初始速度")]
+    [UIDragFloat(0.01f, float.MinValue, float.MaxValue, UIShowType.Particle, "Particle Initial Speed")]
     public Vector3 ParticleInitialSpeed;
     [Indexable]
-    [UIDragFloat(0.01f, 0, float.MaxValue, UIShowType.Particle, "尺寸")]
+    [UIDragFloat(0.01f, 0, float.MaxValue, UIShowType.Particle, "Particle Scale")]
     public Vector2 ParticleScale;
     [Indexable]
-    [UIDragFloat(0.01f, float.MinValue, float.MaxValue, UIShowType.Particle, "加速度")]
+    [UIDragFloat(0.01f, float.MinValue, float.MaxValue, UIShowType.Particle, "Particle Acceleration")]
     public Vector3 ParticleAcceleration;
 
     [Srgb]
-    [UIShow(UIShowType.Particle, "贴图")]
+    [UIShow(UIShowType.Particle, "Particle Texture")]
     public Texture2D ParticleTexture;
     [Indexable]
-    [UIColor(UIShowType.Particle, "颜色")]
+    [UIColor(UIShowType.Particle, "Particle Colour")]
     public Vector4 ParticleColor = new Vector4(1, 1, 1, 1);
     [Indexable]
-    [UIShow(UIShowType.Particle, "混合模式")]
+    [UIShow(UIShowType.Particle, "Particle Blend Mode")]
     public BlendMode ParticleBlendMode;
     #endregion
 

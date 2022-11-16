@@ -328,88 +328,88 @@ public class DeferredRenderPass
     public Vector3 CameraBack;
 
 
-    [UIDragFloat(0.01f, 0, name: "亮度")]
+    [UIDragFloat(0.01f, 0, name: "Brightness")]
     [Indexable]
     public float Brightness = 1;
 
-    [UIDragFloat(0.01f, 0, name: "天空盒亮度")]
+    [UIDragFloat(0.01f, 0, name: "Skylight Multiple")]
     [Indexable]
     public float SkyLightMultiple = 3;
 
 
     [Indexable]
-    [UIShow(name: "启用体积光")]
+    [UIShow(name: "Volumetic Lighting")]
     public bool EnableVolumetricLighting;
 
     [Indexable]
-    [UIDragInt(1, 1, 256, name: "体积光采样次数")]
+    [UIDragInt(1, 1, 256, name: "Volumetric Lighting Sample Count")]
     public int VolumetricLightingSampleCount = 16;
 
     [Indexable]
-    [UIDragFloat(0.1f, name: "体积光距离")]
+    [UIDragFloat(0.1f, name: "Volumetric Lighting Distance")]
     public float VolumetricLightingDistance = 12;
 
     [Indexable]
-    [UIDragFloat(0.1f, name: "体积光强度")]
+    [UIDragFloat(0.1f, name: "Volumetric Lighting Intensity")]
     public float VolumetricLightingIntensity = 0.001f;
 
     [Indexable]
-    [UIShow(name: "启用SSAO")]
+    [UIShow(name: "SSAO")]
     public bool EnableSSAO;
 
     [Indexable]
-    [UIDragFloat(0.1f, 0, name: "AO距离")]
+    [UIDragFloat(0.1f, 0, name: "Ambient Occlusion Distance")]
     public float AODistance = 1;
 
     [Indexable]
-    [UIDragFloat(0.01f, 0.1f, name: "AO限制")]
+    [UIDragFloat(0.01f, 0.1f, name: "AO Limit")]
     public float AOLimit = 0.3f;
 
     [Indexable]
-    [UIDragInt(1, 0, 128, name: "AO光线采样次数")]
+    [UIDragInt(1, 0, 128, name: "AO Ray Sample Count")]
     public int AORaySampleCount = 32;
 
     [Indexable]
-    [UIShow(name: "启用屏幕空间反射")]
+    [UIShow(name: "SSR")]
     public bool EnableSSR;
 
 
-    [UIShow(name: "启用光线追踪")]
+    [UIShow(name: "Ray Tracing")]
     public bool EnableRayTracing;
 
-    [UIDragFloat(0.01f, 0, 5, name: "光线追踪反射质量")]
+    [UIDragFloat(0.01f, 0, 5, name: "Ray Tracing Reflection Quality")]
     [Indexable]
     public float RayTracingReflectionQuality = 1.0f;
 
-    [UIDragFloat(0.01f, 0, 1.0f, name: "光线追踪反射阈值")]
+    [UIDragFloat(0.01f, 0, 1.0f, name: "Ray Tracing Reflection Threshold")]
     [Indexable]
     public float RayTracingReflectionThreshold = 0.5f;
 
-    [UIShow(name: "更新全局光照")]
+    [UIShow(name: "Update GI")]
     public bool UpdateGI;
 
-    [UIDragFloat(1.0f, name: "全局光照位置")]
+    [UIDragFloat(1.0f, name: "GI Volume Position")]
     [Indexable]
     public Vector3 GIVolumePosition = new Vector3(0, 2.5f, 0);
 
-    [UIDragFloat(1.0f, name: "全局光照范围")]
+    [UIDragFloat(1.0f, name: "GI Volume Size")]
     [Indexable]
     public Vector3 GIVolumeSize = new Vector3(20, 5, 20);
 
     [Indexable]
-    [UIShow(name: "使用全局光照")]
+    [UIShow(name: "Global Illumination")]
     public bool UseGI;
 
-    [UIShow(name: "启用雾")]
+    [UIShow(name: "Fog")]
     [Indexable]
     public bool EnableFog;
-    [UIColor(name: "雾颜色")]
+    [UIColor(name: "Fog Colour")]
     [Indexable]
     public Vector3 FogColor = new Vector3(0.4f, 0.4f, 0.6f);
-    [UIDragFloat(0.001f, 0, name: "雾密度")]
+    [UIDragFloat(0.001f, 0, name: "Fog Density")]
     [Indexable]
     public float FogDensity = 0.005f;
-    [UIDragFloat(0.1f, 0, name: "雾开始距离")]
+    [UIDragFloat(0.1f, 0, name: "Fog Start Distance")]
     [Indexable]
     public float FogStartDistance = 5;
     //[UIDragFloat(0.1f, 0, name: "雾结束距离")]
