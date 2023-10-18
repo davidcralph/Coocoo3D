@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
@@ -17,7 +17,7 @@
     <PackageReference Include="BulletSharp.x64" Version="0.12.0" />
     <PackageReference Include="DefaultEcs" Version="0.17.2" />
     <PackageReference Include="ImGui.NET" Version="1.86.0" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="12.1.0" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.3.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
